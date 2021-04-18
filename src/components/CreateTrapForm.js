@@ -11,11 +11,12 @@ const CreateTrapForm = ({ traps, setTraps }) => {
     const [trapName, setTrapName] = useState('');
     // const addTrap = useStoreActions((actions) => actions.addTrap);
     const history = useHistory();
-    console.log(traps);
+    // console.log(traps);
 
     function createTrap() {
         const trap = {
             name: trapName,
+            state: 'inactive',
             id: uuidv4(),
         };
         traps.push(trap);
@@ -28,7 +29,6 @@ const CreateTrapForm = ({ traps, setTraps }) => {
                 console.error(error);
             }
         );
-        // addTrap(trap);
     }
 
     return (

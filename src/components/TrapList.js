@@ -6,6 +6,7 @@ import CreateTrapForm from './CreateTrapForm';
 import PageHeader from './PageHeader';
 import AddIcon from '@material-ui/icons/Add';
 import { Link, Route, Switch, useRouteMatch, useHistory } from 'react-router-dom';
+import { getCurrentLocation } from '../services/location-service';
 
 const TrapList = () => {
     // const traps = useStoreState((state) => state.traps);
@@ -19,11 +20,10 @@ const TrapList = () => {
 
     const { path, url } = useRouteMatch();
     const history = useHistory();
-    // console.log(path, url);
 
     return (
         <div className="l-trap-list page-view">
-            <PageHeader title="Your Pods"></PageHeader>
+            <PageHeader title="Your Traps"></PageHeader>
             <Switch>
                 <Route path={`${url}/create`}>
                     <CreateTrapForm traps={traps} setTraps={setTraps}></CreateTrapForm>
@@ -61,7 +61,7 @@ function Pod(props) {
 }
 
 function NoPodsMessage() {
-    return <div>No Pods to show</div>;
+    return <div className="no-traps">No traps to show</div>;
 }
 
 export default TrapList;

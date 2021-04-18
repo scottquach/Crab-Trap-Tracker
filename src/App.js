@@ -43,7 +43,7 @@ function App() {
                         </Route>
                     </Switch>
                     <BottomNavigation value={tab} onChange={(event, newTab) => updateTab(newTab)} showLabels>
-                        <BottomNavigationAction label="Pods" icon={<Favorite />} />
+                        <BottomNavigationAction label="Traps" icon={<Favorite />} />
                         <BottomNavigationAction label="Map" icon={<Explore />} />
                     </BottomNavigation>
                 </div>
