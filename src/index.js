@@ -9,7 +9,6 @@ import { StoreProvider } from 'easy-peasy';
 import store from './store';
 
 
-
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>

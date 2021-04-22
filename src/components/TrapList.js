@@ -61,7 +61,7 @@ function Pod(props) {
 }
 
 function NoPodsMessage() {
-    return <div className="no-traps">No traps to show</div>;
+    return <div className="m-4 font-bold text-xl">No traps to show</div>;
 }
 
 export default TrapList;
