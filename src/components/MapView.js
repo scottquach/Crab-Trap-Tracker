@@ -1,7 +1,8 @@
 import ReactMapGL, { Marker } from 'react-map-gl';
-import { useEffect, useState } from 'react';
-import { Fab } from '@material-ui/core';
+import { useEffect, useMemo, useState } from 'react';
 import { loadTraps } from '../services/db-service';
+import { getCurrentLocation } from '../services/location-service';
+import { Place } from '@material-ui/icons';
 
 const MapView = (props) => {
     const accessToken = 'pk.eyJ1Ijoic2NvdHRxdWFjaCIsImEiOiJja2ZuanAwenExcTU2MzRtamd0cmRxMmlvIn0.szNArQYZqPJkLP5-rkdcpQ';
@@ -10,7 +11,7 @@ const MapView = (props) => {
         height: '100%',
         latitude: 37.7577,
         longitude: -122.4376,
-        zoom: 8,
+        zoom: 12,
     });
     const [traps, setTraps] = useState([]);
     useEffect(() => {
@@ -19,15 +20,26 @@ const MapView = (props) => {
             console.log(traps);
             setTraps(traps);
         });
+        getCurrentLocation().then((position) => {
+            setViewport({
+                ...viewport,
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+            });
+        });
     }, []);
 
-    const locationList = [
-        {
-            latitude: 37.78,
-            longitude: -122.41,
-        },
-    ];
-
+    const markers = useMemo(() => {
+        return traps.map((trap) => {
+            console.log(trap);
+            return (
+                <Marker key={trap.id} latitude={trap.location.latitude} longitude={trap.location.longitude}>
+                    <div>{trap.name}</div>
+                    <Place></Place>
+                </Marker>
+            );
+        });
+    }, [traps]);
     return (
         <div className="w-screen h-96 flex-1 bg-gray-100">
             <ReactMapGL
@@ -37,9 +49,7 @@ const MapView = (props) => {
                 height="100%"
                 onViewportChange={(viewport) => setViewport(viewport)}
             >
-                {/* <Marker latitude={37.78} longitude={-122.41} offsetLeft={-20} offsetTop={-10}>
-                    <button>hi</button>
-                </Marker> */}
+                {markers}
             </ReactMapGL>
         </div>
     );
