@@ -10,6 +10,7 @@ import MapView from './components/MapView';
 function App() {
     const [tab, setTab] = useState(0);
     const history = useHistory();
+    console.log('App rendered')
     const theme = createMuiTheme({
         palette: {
             primary: {

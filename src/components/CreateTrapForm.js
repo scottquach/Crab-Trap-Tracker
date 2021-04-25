@@ -3,7 +3,6 @@ import './CreateTrapForm.css';
 import '../App.css';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useStoreActions } from 'easy-peasy';
 import { useHistory } from 'react-router';
 import { saveTraps } from '../services/db-service';
 
@@ -32,9 +31,9 @@ const CreateTrapForm = ({ traps, setTraps }) => {
     }
 
     return (
-        <div className="l-create-trap-form">
-            <h3 className="form__header">Create Trap</h3>
-            <div className="form__description">Will be used to track individual traps</div>
+        <div className="flex flex-col w-full h-full flex-1">
+            <h3 className="text-left w-full">Create Trap</h3>
+            <div className="text-left opacity-80 mb-8">Will be used to track individual traps</div>
             <TextField
                 label="Trap Name"
                 value={trapName}
@@ -42,7 +41,7 @@ const CreateTrapForm = ({ traps, setTraps }) => {
                 variant="filled"
             ></TextField>
             <div className="form__image">Image</div>
-            <Button className="form__btn-create" onClick={createTrap} variant="contained" color="primary" disableElevation>
+            <Button classes="mt-auto mb-8" onClick={createTrap} variant="contained" color="primary" disableElevation>
                 Create
             </Button>
         </div>

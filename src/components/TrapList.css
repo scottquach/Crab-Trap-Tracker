@@ -24,9 +24,9 @@
     margin-bottom: 1rem;
 }
 
-.trap:active {
+/* .trap:active {
     transform: scale(0.98);
-}
+} */
 
 .trap__description {
     display: flex;

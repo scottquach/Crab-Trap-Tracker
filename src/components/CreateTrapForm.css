@@ -1,31 +1,7 @@
-.l-create-trap-form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    flex: 1;
-}
-
-.form__header {
-    text-align: start;
-    width: 100%;
-}
-
-.form__description {
-    text-align: start;
-    opacity: 0.8;
-    margin-bottom: 2rem;
-}
-
 .form__image {
     width: 100%;
     height: 10rem;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.form__btn-create {
-    margin-top: auto;
-    margin-bottom: 2rem;
 }

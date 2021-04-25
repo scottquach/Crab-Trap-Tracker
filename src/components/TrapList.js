@@ -1,5 +1,5 @@
 import { Box, Button } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './TrapList.css';
 
 import CreateTrapForm from './CreateTrapForm';
@@ -7,16 +7,46 @@ import PageHeader from './PageHeader';
 import AddIcon from '@material-ui/icons/Add';
 import { Link, Route, Switch, useRouteMatch, useHistory } from 'react-router-dom';
 import { getCurrentLocation } from '../services/location-service';
+import { loadTraps, saveTraps } from '../services/db-service';
 
 const TrapList = () => {
     // const traps = useStoreState((state) => state.traps);
     console.log('rendered');
     const [traps, setTraps] = useState([]);
+    const loading = useRef(false);
 
     useEffect(() => {
-        console.log('effect called');
-        console.log(traps);
+        console.log('List rendered');
+        loadTraps().then((traps) => {
+            console.log(traps);
+            setTraps(traps);
+            setTimeout(() => {
+                loading.current = true;
+            });
+        });
+    }, []);
+
+    useEffect(() => {
+        if (loading.current) {
+            console.log('effect called');
+            console.log(traps);
+            saveTraps(traps);
+        }
     }, [traps]);
+
+    const updateTrapLocation = (id, position) => {
+        // console.log('here', id, position);
+        // console.log(position);
+
+        const index = traps.findIndex((trap) => trap.id === id);
+        // console.log(index);
+        traps[index].location = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+        };
+        setTraps(traps.slice());
+        // console.log(traps);
+    };
 
     const { path, url } = useRouteMatch();
     const history = useHistory();
@@ -31,7 +61,9 @@ const TrapList = () => {
                 <Route path={path} exact>
                     <div className="l-traps">
                         {traps.length > 0 ? (
-                            traps.map((trap) => <Pod key={trap.id} name={trap.name}></Pod>)
+                            traps.map((trap) => (
+                                <Pod key={trap.id} id={trap.id} name={trap.name} updateTrapLocation={updateTrapLocation}></Pod>
+                            ))
                         ) : (
                             <NoPodsMessage></NoPodsMessage>
                         )}
@@ -45,12 +77,20 @@ const TrapList = () => {
     );
 };
 
-function Pod(props) {
+function Pod({ id, name, updateTrapLocation }) {
+    const markLocation = async () => {
+        console.log('marking');
+        const position = await getCurrentLocation();
+        // console.log(position);
+        updateTrapLocation(id, position);
+    };
+
     return (
         <Box boxShadow={0} border={1} borderColor="secondary.dark" className="trap">
             <div className="trap__description">
-                <h3 className="trap__name">{props.name}</h3>
+                <h3 className="trap__name">{name}</h3>
                 <div className="trap__status">Active</div>
+                <button onClick={markLocation}>Mark</button>
             </div>
             <img
                 className="trap__image"
