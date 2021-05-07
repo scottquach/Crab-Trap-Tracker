@@ -1,12 +1,18 @@
 import { Button, TextField } from '@material-ui/core';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useHistory } from 'react-router';
 import { saveTraps } from '../../services/db-service';
+import { PageHeaderContext } from '../../contexts/PageHeaderContext';
 
 const CreateTrapForm = ({ traps, setTraps }) => {
     const [trapName, setTrapName] = useState('');
+    const { setHeader } = useContext(PageHeaderContext);
     const history = useHistory();
+
+    useEffect(() => {
+        setHeader('Create a Trap');
+    }, []);
 
     function createTrap() {
         const trap = {

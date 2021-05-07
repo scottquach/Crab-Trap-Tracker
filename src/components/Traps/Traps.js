@@ -12,6 +12,7 @@ import { Route, Switch, useRouteMatch, useHistory } from 'react-router-dom';
 import { getCurrentLocation } from '../../services/location-service';
 import { loadTraps, saveTraps } from '../../services/db-service';
 import useTrapsModifier from '../../hooks/useTrapsModifier';
+import { PageHeaderContext } from '../../contexts/PageHeaderContext';
 
 const Traps = () => {
     const [traps, setTraps] = useState([]);
@@ -40,23 +41,24 @@ const Traps = () => {
 
     function handleNavigateCreate() {
         history.push(`${url}/create`);
-        setHeader('Create a trap');
     }
 
     return (
         <div className="l-trap-list page-view">
-            <PageHeader header={header}></PageHeader>
-            <Switch>
-                <Route path={`${url}/create`}>
-                    <CreateTrapForm traps={traps} setTraps={setTraps}></CreateTrapForm>
-                </Route>
-                <Route path={path} exact>
-                    <TrapList traps={traps} setTraps={setTraps}></TrapList>
-                    <Button variant="outlined" startIcon={<AddIcon />} onClick={handleNavigateCreate}>
-                        Add Pod
-                    </Button>
-                </Route>
-            </Switch>
+            <PageHeaderContext.Provider value={{ header, setHeader }}>
+                <PageHeader></PageHeader>
+                <Switch>
+                    <Route path={`${url}/create`}>
+                        <CreateTrapForm traps={traps} setTraps={setTraps}></CreateTrapForm>
+                    </Route>
+                    <Route path={path} exact>
+                        <TrapList traps={traps} setTraps={setTraps}></TrapList>
+                        <Button variant="outlined" startIcon={<AddIcon />} onClick={handleNavigateCreate}>
+                            Add Pod
+                        </Button>
+                    </Route>
+                </Switch>
+            </PageHeaderContext.Provider>
         </div>
     );
 };
@@ -140,7 +142,7 @@ function TrapConfig({ trap, traps, setTraps, show, setShow }) {
 function Trap({ id, name, state }) {
     return (
         <Box boxShadow={0} border={1} borderColor="secondary.dark" className="trap">
-            <div className="">
+            <div className="flex flex-col items-start">
                 <h3 className="font-medium text-xl text-left mb-4">{name}</h3>
                 {state !== 'active' && <TrapInactiveTag></TrapInactiveTag>}
                 {state === 'active' && <TrapActiveTag></TrapActiveTag>}
@@ -151,7 +153,7 @@ function Trap({ id, name, state }) {
 
 function TrapInactiveTag() {
     return (
-        <div className="flex items-center w-auto py-1 px-2 rounded text-sm bg-yellow-500 text-white">
+        <div className="flex items-center py-1 px-2 rounded text-sm bg-yellow-500 text-white">
             <ExploreOff className="text-base mr-1"></ExploreOff>
             <span>Not Active</span>
         </div>

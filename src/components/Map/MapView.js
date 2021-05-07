@@ -39,13 +39,13 @@ const MapView = (props) => {
                 height="100%"
                 onViewportChange={(viewport) => setViewport(viewport)}
             >
-                <MarkerList traps={traps}></MarkerList>
+                <MarkerList traps={traps} setTraps={setTraps}></MarkerList>
             </ReactMapGL>
         </div>
     );
 };
 
-function MarkerList({ traps }) {
+function MarkerList({ traps, setTraps }) {
     const [focusedTrap, setFocusedTrap] = useState(null);
     const [showActions, setShowActions] = useState(false);
 
@@ -74,7 +74,13 @@ function MarkerList({ traps }) {
     return (
         <div>
             {markers}
-            <MapActions show={showActions} setShow={setShowActions} trap={focusedTrap}></MapActions>
+            <MapActions
+                show={showActions}
+                setShow={setShowActions}
+                trap={focusedTrap}
+                traps={traps}
+                setTraps={setTraps}
+            ></MapActions>
         </div>
     );
 }
