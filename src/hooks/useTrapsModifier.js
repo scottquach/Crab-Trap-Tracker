@@ -27,7 +27,7 @@ const useTrapsModifier = (traps, setTraps) => {
 
     const deleteTrap = (id) => {
         const index = traps.findIndex((trap) => trap.id === id);
-        traps.splice(index);
+        traps.splice(index, 1);
         setTraps(traps.slice());
     };
 

@@ -16,8 +16,8 @@ const MapActions = ({ trap, show, setShow, traps, setTraps }) => {
     };
 
     return (
-        <BottomSheet open={show} onDismiss={onDismiss} header={<h3>{trap ? trap.name : ''}</h3>} blocking={true}>
-            <div>
+        <BottomSheet className="" open={show} onDismiss={onDismiss} header={<h3>{trap ? trap.name : ''}</h3>} blocking={true}>
+            <div className="">
                 {trap?.state === 'active' && (
                     <div className="flex m-4" onClick={handleUnmarkFromMap}>
                         <ExploreOffTwoTone className="mr-2"></ExploreOffTwoTone>

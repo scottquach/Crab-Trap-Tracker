@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Traps from './components/Traps/Traps';
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
@@ -6,6 +6,7 @@ import { Explore, Favorite } from '@material-ui/icons';
 import { createMuiTheme, StylesProvider, ThemeProvider } from '@material-ui/core/styles';
 import { Switch, Route, useHistory, Redirect } from 'react-router-dom';
 import MapView from './components/Map/MapView';
+import { watchPosition } from './services/location-service';
 
 function App() {
     const [tab, setTab] = useState(0);
@@ -21,6 +22,10 @@ function App() {
             },
         },
     });
+
+    useEffect(() => {
+        // watchPosition();
+    }, [])
 
     function updateTab(newTab) {
         if (newTab === 0) history.push('/');

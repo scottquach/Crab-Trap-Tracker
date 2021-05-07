@@ -5,16 +5,11 @@ import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import { StoreProvider } from 'easy-peasy';
-import store from './store';
-
 
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
-            <StoreProvider store={store}>
-                <App />
-            </StoreProvider>
+            <App />
         </BrowserRouter>
     </React.StrictMode>,
     document.getElementById('root')

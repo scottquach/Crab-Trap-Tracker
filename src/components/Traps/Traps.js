@@ -5,7 +5,16 @@ import 'react-spring-bottom-sheet/dist/style.css';
 import './TrapList.css';
 
 import AddIcon from '@material-ui/icons/Add';
-import { DeleteTwoTone, DoneAllTwoTone, ExploreOff, ExploreOffTwoTone, LocationOnTwoTone, Place } from '@material-ui/icons';
+import {
+    DeleteTwoTone,
+    DoneAllTwoTone,
+    ExploreOff,
+    ExploreOffTwoTone,
+    LocationOnTwoTone,
+    Map,
+    MapTwoTone,
+    Place,
+} from '@material-ui/icons';
 import CreateTrapForm from './CreateTrapForm';
 import PageHeader from '../PageHeader';
 import { Route, Switch, useRouteMatch, useHistory } from 'react-router-dom';
@@ -23,9 +32,11 @@ const Traps = () => {
 
     useEffect(() => {
         loadTraps().then((traps) => {
-            // console.log(traps);
+            console.log(traps);
             console.log('Loading traps from db');
-            setTraps(traps);
+            if (traps) {
+                setTraps(traps);
+            }
             setTimeout(() => {
                 loaded.current = true;
             });
@@ -54,7 +65,7 @@ const Traps = () => {
                     <Route path={path} exact>
                         <TrapList traps={traps} setTraps={setTraps}></TrapList>
                         <Button variant="outlined" startIcon={<AddIcon />} onClick={handleNavigateCreate}>
-                            Add Pod
+                            Add Trap
                         </Button>
                     </Route>
                 </Switch>
@@ -74,7 +85,7 @@ function TrapList({ traps, setTraps }) {
 
     return (
         <div className="flex flex-col w-full">
-            {traps.length > 0 ? (
+            {traps && traps.length > 0 ? (
                 traps.map((trap) => (
                     <div key={trap.id} onClick={() => handleTrapClick(trap)}>
                         <Trap id={trap.id} name={trap.name} state={trap.state}></Trap>
@@ -122,6 +133,12 @@ function TrapConfig({ trap, traps, setTraps, show, setShow }) {
                     <div className="flex m-4" onClick={handleUnmarkFromMap}>
                         <ExploreOffTwoTone className="mr-2"></ExploreOffTwoTone>
                         <div className="font-medium">Unmark from Map</div>
+                    </div>
+                )}
+                {trap?.state === 'active' && (
+                    <div className="flex m-4" onClick={handleDelete}>
+                        <MapTwoTone className="mr-2"></MapTwoTone>
+                        <div className="font-medium">Show on Map</div>
                     </div>
                 )}
                 {trap?.state !== 'active' && (
