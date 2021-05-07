@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import TrapList from './components/TrapList';
+import Traps from './components/Traps';
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import { Explore, Favorite } from '@material-ui/icons';
 import { createMuiTheme, StylesProvider, ThemeProvider } from '@material-ui/core/styles';
@@ -37,7 +37,7 @@ function App() {
                             <MapView></MapView>
                         </Route>
                         <Route path="/traps">
-                            <TrapList></TrapList>
+                            <Traps></Traps>
                         </Route>
                         <Route>
                             <Redirect to="/traps"></Redirect>

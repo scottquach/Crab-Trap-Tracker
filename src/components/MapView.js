@@ -30,15 +30,17 @@ const MapView = (props) => {
     }, []);
 
     const markers = useMemo(() => {
-        return traps.map((trap) => {
-            console.log(trap);
-            return (
-                <Marker key={trap.id} latitude={trap.location.latitude} longitude={trap.location.longitude}>
-                    <div>{trap.name}</div>
-                    <Place></Place>
-                </Marker>
-            );
-        });
+        return traps
+            .filter((trap) => trap.state === 'active')
+            .map((trap) => {
+                console.log(trap);
+                return (
+                    <Marker key={trap.id} latitude={trap?.location?.latitude} longitude={trap?.location?.longitude}>
+                        <div>{trap.name}</div>
+                        <Place></Place>
+                    </Marker>
+                );
+            });
     }, [traps]);
     return (
         <div className="w-screen h-96 flex-1 bg-gray-100">
