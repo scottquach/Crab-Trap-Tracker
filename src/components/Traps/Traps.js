@@ -1,16 +1,17 @@
 import { Box, Button } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
-import './TrapList.css';
 import { BottomSheet } from 'react-spring-bottom-sheet';
 import 'react-spring-bottom-sheet/dist/style.css';
+import './TrapList.css';
 
-import CreateTrapForm from './CreateTrapForm';
-import PageHeader from './PageHeader';
 import AddIcon from '@material-ui/icons/Add';
-import { Route, Switch, useRouteMatch, useHistory } from 'react-router-dom';
-import { getCurrentLocation } from '../services/location-service';
-import { loadTraps, saveTraps } from '../services/db-service';
 import { DeleteTwoTone, DoneAllTwoTone, ExploreOff, ExploreOffTwoTone, LocationOnTwoTone, Place } from '@material-ui/icons';
+import CreateTrapForm from './CreateTrapForm';
+import PageHeader from '../PageHeader';
+import { Route, Switch, useRouteMatch, useHistory } from 'react-router-dom';
+import { getCurrentLocation } from '../../services/location-service';
+import { loadTraps, saveTraps } from '../../services/db-service';
+import useTrapsModifier from '../../hooks/useTrapsModifier';
 
 const Traps = () => {
     const [traps, setTraps] = useState([]);
@@ -32,8 +33,7 @@ const Traps = () => {
 
     useEffect(() => {
         if (loaded.current) {
-            console.log('saving traps');
-            console.log(traps);
+            // console.log(traps);
             saveTraps(traps);
         }
     }, [traps]);
@@ -65,33 +65,6 @@ function TrapList({ traps, setTraps }) {
     const [focusedTrap, setFocusedTrap] = useState(null);
     const [showTrapConfig, setShowTrapConfig] = useState(false);
 
-    function markOnMap(id) {
-        getCurrentLocation()
-            .then((position) => {
-                console.log(position);
-                const index = traps.findIndex((trap) => trap.id === id);
-                traps[index].state = 'active';
-                traps[index].location = {
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                };
-                setTraps(traps.slice());
-            })
-            .catch((err) => console.error(err));
-    }
-
-    function unmarkFromMap(id) {
-        const index = traps.findIndex((trap) => trap.id === id);
-        traps[index].state = 'inactive';
-        traps[index].location = null;
-        setTraps(traps.slice());
-    }
-
-    function deleteTrap(id) {
-        const index = traps.findIndex((trap) => trap.id === id);
-        setTraps(traps.splice(index, 1));
-    }
-
     function handleTrapClick(trap) {
         setFocusedTrap(trap);
         setShowTrapConfig(true);
@@ -112,15 +85,15 @@ function TrapList({ traps, setTraps }) {
                 trap={focusedTrap}
                 show={showTrapConfig}
                 setShow={setShowTrapConfig}
-                deleteTrap={deleteTrap}
-                markOnMap={markOnMap}
-                unmarkFromMap={unmarkFromMap}
+                traps={traps}
+                setTraps={setTraps}
             ></TrapConfig>
         </div>
     );
 }
 
-function TrapConfig({ trap, deleteTrap, markOnMap, unmarkFromMap, show, setShow }) {
+function TrapConfig({ trap, traps, setTraps, show, setShow }) {
+    const { markOnMap, unmarkFromMap, deleteTrap } = useTrapsModifier(traps, setTraps);
     function onDismiss() {
         setShow(false);
     }
@@ -178,7 +151,7 @@ function Trap({ id, name, state }) {
 
 function TrapInactiveTag() {
     return (
-        <div className="flex items-center py-1 px-2 rounded text-sm bg-yellow-500 text-white">
+        <div className="flex items-center w-auto py-1 px-2 rounded text-sm bg-yellow-500 text-white">
             <ExploreOff className="text-base mr-1"></ExploreOff>
             <span>Not Active</span>
         </div>
@@ -187,7 +160,7 @@ function TrapInactiveTag() {
 
 function TrapActiveTag() {
     return (
-        <div className="flex items-center py-1 px-2 rounded text-sm bg-green-500 text-white">
+        <div className="flex items-center w-auto py-1 px-2 rounded text-sm bg-green-500 text-white">
             <Place className="text-base mr-1"></Place>
             <span>Currently Active</span>
         </div>

@@ -1,9 +1,8 @@
 import { Button, TextField } from '@material-ui/core';
-import '../App.css';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useHistory } from 'react-router';
-import { saveTraps } from '../services/db-service';
+import { saveTraps } from '../../services/db-service';
 
 const CreateTrapForm = ({ traps, setTraps }) => {
     const [trapName, setTrapName] = useState('');

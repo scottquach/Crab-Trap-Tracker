@@ -1,6 +1,7 @@
 import { get, set } from 'idb-keyval';
 
 export async function saveTraps(traps) {
+    console.log('saving traps');
     console.log(traps);
     await set('traps', traps);
 }

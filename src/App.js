@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './App.css';
-import Traps from './components/Traps';
+import Traps from './components/Traps/Traps';
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import { Explore, Favorite } from '@material-ui/icons';
 import { createMuiTheme, StylesProvider, ThemeProvider } from '@material-ui/core/styles';
 import { Switch, Route, useHistory, Redirect } from 'react-router-dom';
-import MapView from './components/MapView';
+import MapView from './components/Map/MapView';
 
 function App() {
     const [tab, setTab] = useState(0);
