@@ -1,3 +1,4 @@
+import { saveTraps } from '../services/db-service';
 import { getCurrentLocation } from '../services/location-service';
 
 const useTrapsModifier = (traps, setTraps) => {
@@ -14,6 +15,7 @@ const useTrapsModifier = (traps, setTraps) => {
                     longitude: position.coords.longitude,
                 };
                 setTraps(traps.slice());
+                saveTraps(traps.slice());
             })
             .catch((err) => console.error(err));
     };
@@ -23,12 +25,14 @@ const useTrapsModifier = (traps, setTraps) => {
         traps[index].state = 'inactive';
         traps[index].location = null;
         setTraps(traps.slice());
+        saveTraps(traps.slice());
     };
 
     const deleteTrap = (id) => {
         const index = traps.findIndex((trap) => trap.id === id);
         traps.splice(index, 1);
         setTraps(traps.slice());
+        saveTraps(traps.slice());
     };
 
     return {

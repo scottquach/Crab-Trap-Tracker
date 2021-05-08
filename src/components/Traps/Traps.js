@@ -7,18 +7,15 @@ import './TrapList.css';
 import AddIcon from '@material-ui/icons/Add';
 import {
     DeleteTwoTone,
-    DoneAllTwoTone,
     ExploreOff,
     ExploreOffTwoTone,
     LocationOnTwoTone,
-    Map,
     MapTwoTone,
     Place,
 } from '@material-ui/icons';
 import CreateTrapForm from './CreateTrapForm';
 import PageHeader from '../PageHeader';
 import { Route, Switch, useRouteMatch, useHistory } from 'react-router-dom';
-import { getCurrentLocation } from '../../services/location-service';
 import { loadTraps, saveTraps } from '../../services/db-service';
 import useTrapsModifier from '../../hooks/useTrapsModifier';
 import { PageHeaderContext } from '../../contexts/PageHeaderContext';
@@ -43,12 +40,12 @@ const Traps = () => {
         });
     }, []);
 
-    useEffect(() => {
-        if (loaded.current) {
-            // console.log(traps);
-            saveTraps(traps);
-        }
-    }, [traps]);
+    // useEffect(() => {
+    //     if (loaded.current) {
+    //         // console.log(traps);
+    //         saveTraps(traps);
+    //     }
+    // }, [traps]);
 
     function handleNavigateCreate() {
         history.push(`${url}/create`);
