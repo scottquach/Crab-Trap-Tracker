@@ -1,10 +1,14 @@
-import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import { useEffect, useMemo, useState } from 'react';
 import { loadTraps } from '../../services/db-service';
 import { getCurrentLocation } from '../../services/location-service';
 import { MyLocation, Place } from '@material-ui/icons';
 import MapActions from './MapActions';
 import { Fab } from '@material-ui/core';
+import mapboxgl from "mapbox-gl";
+import ReactMapGL, { Marker, Popup } from 'react-map-gl';
+// https://github.com/mapbox/mapbox-gl-js/issues/10173
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 const MapView = (props) => {
     const accessToken = 'pk.eyJ1Ijoic2NvdHRxdWFjaCIsImEiOiJja2ZuanAwenExcTU2MzRtamd0cmRxMmlvIn0.szNArQYZqPJkLP5-rkdcpQ';
@@ -75,6 +79,7 @@ function MarkerList({ traps, setTraps }) {
     }
 
     const markers = useMemo(() => {
+        if(!traps) return null;
         return traps
             .filter((trap) => trap.state === 'active')
             .map((trap) => {

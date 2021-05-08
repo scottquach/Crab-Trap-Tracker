@@ -187,7 +187,7 @@ function TrapActiveTag() {
 }
 
 function NoPodsMessage() {
-    return <div className="m-4 font-bold text-xl">No traps to show</div>;
+    return <div className="m-4 mt-48 font-bold text-xl">You currently have no traps</div>;
 }
 
 export default Traps;
