@@ -133,7 +133,7 @@ function TrapConfig({ trap, traps, setTraps, show, setShow }) {
                     </div>
                 )}
                 {trap?.state === 'active' && (
-                    <div className="flex m-4" onClick={handleDelete}>
+                    <div className="flex m-4" onClick={handleMarkOnMap}>
                         <MapTwoTone className="mr-2"></MapTwoTone>
                         <div className="font-medium">Show on Map</div>
                     </div>

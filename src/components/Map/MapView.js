@@ -4,7 +4,7 @@ import { getCurrentLocation } from '../../services/location-service';
 import { MyLocation, Place } from '@material-ui/icons';
 import MapActions from './MapActions';
 import { Fab } from '@material-ui/core';
-import mapboxgl from "mapbox-gl";
+import mapboxgl from 'mapbox-gl';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 // https://github.com/mapbox/mapbox-gl-js/issues/10173
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -36,14 +36,18 @@ const MapView = (props) => {
         });
     }, []);
 
+    const setViewpointLocation = (latitude, longitude) => {
+        setViewport({
+            latitude: latitude,
+            longitude: longitude,
+            zoom: 12,
+        });
+    };
+
     const handleCurrentLocation = () => {
         getCurrentLocation().then((position) => {
-            console.log(position)
-            setViewport({
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
-                zoom: 12,
-            });
+            console.log(position);
+            setViewpointLocation(position.coords.latitude, position.coords.longitude);
         });
     };
 
@@ -59,7 +63,8 @@ const MapView = (props) => {
                 {/* <Popup latitude={37.78} longitude={-122.41} closeButton={true} closeOnClick={false} anchor="top">
                     <div>You are here</div>
                 </Popup> */}
-                <MarkerList traps={traps} setTraps={setTraps}></MarkerList>
+                {/* <CurrentLocation></CurrentLocation> */}
+                <MarkerList traps={traps} setTraps={setTraps} setViewpointLocation={setViewpointLocation}></MarkerList>
             </ReactMapGL>
             <Fab size="medium" className="absolute bottom-8 right-4 bg-black" onClick={handleCurrentLocation}>
                 <MyLocation className="text-blue-400"></MyLocation>
@@ -68,7 +73,25 @@ const MapView = (props) => {
     );
 };
 
-function MarkerList({ traps, setTraps }) {
+function CurrentLocation() {
+    const [location, setLocation] = useState(null);
+
+    getCurrentLocation().then((position) => {
+        setLocation(position.coords);
+    });
+
+    if (!location) return null;
+
+    return (
+        <Marker latitude={location.latitude} longitude={location.longitude}>
+            <div>
+                <MyLocation className="text-blue-500 text-base"></MyLocation>
+            </div>
+        </Marker>
+    );
+}
+
+function MarkerList({ traps, setTraps, setViewpointLocation }) {
     const [focusedTrap, setFocusedTrap] = useState(null);
     const [showActions, setShowActions] = useState(false);
 
@@ -76,24 +99,28 @@ function MarkerList({ traps, setTraps }) {
         console.log('marker clicked');
         setFocusedTrap(trap);
         setShowActions(true);
+        setViewpointLocation(trap.location.latitude, trap.location.longitude);
     }
 
-    const markers = useMemo(() => {
-        if(!traps) return null;
-        return traps
-            .filter((trap) => trap.state === 'active')
-            .map((trap) => {
-                console.log(trap);
-                return (
-                    <Marker key={trap.id} latitude={trap?.location?.latitude} longitude={trap?.location?.longitude}>
-                        {/* <div>{trap.name}</div> */}
-                        <div onClick={() => handleMarkerClick(trap)}>
-                            <Place className="text-blue-500"></Place>
-                        </div>
-                    </Marker>
-                );
-            });
-    }, [traps]);
+    const markers = traps
+        .filter((trap) => trap.state === 'active')
+        .map((trap) => {
+            // console.log(trap);
+            return (
+                <Marker
+                    key={trap.id}
+                    latitude={trap?.location?.latitude}
+                    longitude={trap?.location?.longitude}
+                    offsetLeft={-10}
+                    offsetTop={-10}
+                >
+                    {/* <div>{trap.name}</div> */}
+                    <div className="bg-white" onClick={() => handleMarkerClick(trap)}>
+                        <Place className={'' + (trap?.id === focusedTrap?.id ? 'text-green-500' : 'text-blue-500')}></Place>
+                    </div>
+                </Marker>
+            );
+        });
 
     return (
         <div>
