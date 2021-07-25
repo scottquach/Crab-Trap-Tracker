@@ -115,7 +115,7 @@ function MarkerList({ traps, setTraps, setViewpointLocation }) {
                     offsetTop={-10}
                 >
                     {/* <div>{trap.name}</div> */}
-                    <div className="bg-white" onClick={() => handleMarkerClick(trap)}>
+                    <div className="bg-transparent" onClick={() => handleMarkerClick(trap)}>
                         <Place className={'' + (trap?.id === focusedTrap?.id ? 'text-green-500' : 'text-blue-500')}></Place>
                     </div>
                 </Marker>
