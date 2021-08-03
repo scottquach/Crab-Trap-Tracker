@@ -4,11 +4,14 @@ import { useEffect, useState } from 'react';
 
 import AddIcon from '@material-ui/icons/Add';
 import { Button } from '@material-ui/core';
-import CreateTrapForm from './Traps/CreateTrapForm';
+import TrapCreateForm from './TrapCreateForm';
+import TrapMenu from './TrapMenu';
 
 const TrapsView = () => {
     const [traps, setTraps] = useState([]);
     const [showCreateForm, setShowCreateForm] = useState(false);
+    const [showMenu, setShowMenu] = useState(true);
+    const [focusTrap, setFocusTrap] = useState(null);
 
     const loadTraps = async () => {
         const loadedTraps = await db.traps.toArray();
@@ -20,18 +23,26 @@ const TrapsView = () => {
         loadTraps();
     }, []);
 
+    const test = () => {
+        console.log('test');
+        // setFocusTrap()
+        setShowMenu(true);
+    };
+
+
     return (
         <div className="p-4 h-full flex-1">
             <div className="text-left text-2xl font-bold">My Traps</div>
-            <div>
-                {traps.map((trap) => (
-                    <Trap key={trap.id} data={trap}></Trap>
-                ))}
-            </div>
+            {traps.map((trap) => (
+                <div onClick={test}>
+                    <Trap key={trap.id}  data={trap}></Trap>
+                </div>
+            ))}
             <Button className="mt-8" variant="outlined" startIcon={<AddIcon />} onClick={() => setShowCreateForm(true)}>
                 Create trap
             </Button>
-            <CreateTrapForm show={showCreateForm} setShow={setShowCreateForm} reloadTraps={loadTraps}></CreateTrapForm>
+            <TrapCreateForm show={showCreateForm} setShow={setShowCreateForm} reloadTraps={loadTraps}></TrapCreateForm>
+            <TrapMenu show={showMenu} setShow={setShowMenu}></TrapMenu>
         </div>
     );
 };

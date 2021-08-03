@@ -13,7 +13,7 @@ import {
     MapTwoTone,
     Place,
 } from '@material-ui/icons';
-import CreateTrapForm from './CreateTrapForm';
+import TrapCreateForm from '../TrapCreateForm';
 import PageHeader from '../PageHeader';
 import { Route, Switch, useRouteMatch, useHistory } from 'react-router-dom';
 import { loadTraps, saveTraps } from '../../services/db-service';
@@ -57,7 +57,7 @@ const Traps = () => {
                 <PageHeader></PageHeader>
                 <Switch>
                     <Route path={`${url}/create`}>
-                        <CreateTrapForm traps={traps} setTraps={setTraps}></CreateTrapForm>
+                        <TrapCreateForm traps={traps} setTraps={setTraps}></TrapCreateForm>
                     </Route>
                     <Route path={path} exact>
                         <TrapList traps={traps} setTraps={setTraps}></TrapList>

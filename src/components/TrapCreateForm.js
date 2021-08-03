@@ -4,7 +4,7 @@ import Trap from 'models/TrapModel';
 import db from 'services/db-service';
 import { BottomSheet } from 'react-spring-bottom-sheet';
 
-const CreateTrapForm = ({ show, setShow, reloadTraps }) => {
+const TrapCreateForm = ({ show, setShow, reloadTraps }) => {
     // console.log(showProp);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -35,7 +35,6 @@ const CreateTrapForm = ({ show, setShow, reloadTraps }) => {
     }
 
     return (
-        // <BottomSheet open={show} header={<h3>Create a trap</h3>}>
         <BottomSheet
             open={show}
             onDismiss={onDismiss}
@@ -69,4 +68,4 @@ const CreateTrapForm = ({ show, setShow, reloadTraps }) => {
     );
 };
 
-export default CreateTrapForm;
+export default TrapCreateForm;

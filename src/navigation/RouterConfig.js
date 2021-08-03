@@ -1,5 +1,5 @@
 import MapView from 'components/Map/MapView';
-import CreateTrapForm from 'components/Traps/CreateTrapForm';
+import TrapCreateForm from 'components/TrapCreateForm';
 import Traps from 'components/Traps/Traps';
 import TrapsView from 'components/TrapsView';
 import { Redirect, Route, Switch } from 'react-router';
@@ -10,8 +10,8 @@ export const RouterConfig = () => {
         <Switch>
             <Route path={MAP} component={MapView}></Route>
             <Route path={TRAPS} component={TrapsView}></Route>
-            <Route path={HOME} component={CreateTrapForm}></Route>
-            <Route path={`${TRAPS}/create`} component={CreateTrapForm}></Route>
+            <Route path={HOME} component={TrapCreateForm}></Route>
+            <Route path={`${TRAPS}/create`} component={TrapCreateForm}></Route>
             <Route>
 				<Redirect to={HOME}></Redirect>
 			</Route>
