@@ -10,7 +10,7 @@ import TrapMenu from './TrapMenu';
 const TrapsView = () => {
     const [traps, setTraps] = useState([]);
     const [showCreateForm, setShowCreateForm] = useState(false);
-    const [showMenu, setShowMenu] = useState(true);
+    const [showMenu, setShowMenu] = useState(false);
     const [focusTrap, setFocusTrap] = useState(null);
 
     const loadTraps = async () => {
@@ -23,26 +23,24 @@ const TrapsView = () => {
         loadTraps();
     }, []);
 
-    const test = () => {
-        console.log('test');
-        // setFocusTrap()
+    const onTrapSelected = (trap) => {
+        setFocusTrap(trap);
         setShowMenu(true);
     };
-
 
     return (
         <div className="p-4 h-full flex-1">
             <div className="text-left text-2xl font-bold">My Traps</div>
             {traps.map((trap) => (
-                <div onClick={test}>
-                    <Trap key={trap.id}  data={trap}></Trap>
+                <div onClick={() => onTrapSelected(trap)} key={trap.id}>
+                    <Trap data={trap}></Trap>
                 </div>
             ))}
             <Button className="mt-8" variant="outlined" startIcon={<AddIcon />} onClick={() => setShowCreateForm(true)}>
                 Create trap
             </Button>
             <TrapCreateForm show={showCreateForm} setShow={setShowCreateForm} reloadTraps={loadTraps}></TrapCreateForm>
-            <TrapMenu show={showMenu} setShow={setShowMenu}></TrapMenu>
+            <TrapMenu show={showMenu} setShow={setShowMenu} trap={focusTrap}></TrapMenu>
         </div>
     );
 };

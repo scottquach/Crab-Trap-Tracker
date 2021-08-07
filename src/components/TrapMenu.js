@@ -3,6 +3,8 @@ const { List, ListItem, ListItemIcon, ListItemText } = require('@material-ui/cor
 const { BottomSheet } = require('react-spring-bottom-sheet');
 
 const TrapMenu = ({ trap, show, setShow }) => {
+    const { name } = trap;
+
     const onDismiss = () => {
         setShow(false);
     };
@@ -13,7 +15,7 @@ const TrapMenu = ({ trap, show, setShow }) => {
             onDismiss={onDismiss}
             defaultSnap={({ snapPoints, lastSnap }) => lastSnap ?? Math.min(...snapPoints)}
             snapPoints={({ maxHeight }) => [maxHeight - maxHeight / 2, maxHeight * 0.3]}
-            header={<div className="font-bold text-lg">Test</div>}
+            header={<div className="font-bold text-lg">{name ?? ''}</div>}
         >
             <div>
                 <List>
