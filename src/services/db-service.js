@@ -6,6 +6,7 @@ const db = new Dexie('main');
 
 db.version(1).stores({
     traps: '++id, name, created',
+    logs: '++id, timestamp, type'
 });
 db.open();
 

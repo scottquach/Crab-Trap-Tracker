@@ -6,6 +6,8 @@ import AddIcon from '@material-ui/icons/Add';
 import { Button } from '@material-ui/core';
 import TrapCreateForm from './TrapCreateForm';
 import TrapMenu from './TrapMenu';
+import { deployTrapLog } from 'models/LogModel';
+import { markTrap } from 'services/marker-service';
 
 const TrapsView = () => {
     const [traps, setTraps] = useState([]);
@@ -21,6 +23,7 @@ const TrapsView = () => {
 
     useEffect(() => {
         loadTraps();
+        markTrap('1');
     }, []);
 
     const onTrapSelected = (trap) => {
@@ -40,7 +43,7 @@ const TrapsView = () => {
                 Create trap
             </Button>
             <TrapCreateForm show={showCreateForm} setShow={setShowCreateForm} reloadTraps={loadTraps}></TrapCreateForm>
-            <TrapMenu show={showMenu} setShow={setShowMenu} trap={focusTrap}></TrapMenu>
+            <TrapMenu show={showMenu} setShow={setShowMenu} trap={focusTrap} reloadTraps={loadTraps}></TrapMenu>
         </div>
     );
 };

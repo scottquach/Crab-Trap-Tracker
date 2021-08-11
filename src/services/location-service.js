@@ -28,7 +28,7 @@ export async function getCurrentLocation() {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     console.log(position);
-                    resolve(position);
+                    resolve(position.coords);
                 },
                 (error) => {
                     console.error(error);
